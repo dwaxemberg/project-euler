@@ -1,0 +1,541 @@
+/* Diego Waxemberg
+ * Project Euler
+ */
+import java.math.*;
+import java.io.*;
+import java.util.*;
+import java.util.Calendar;
+
+public class ProjectEuler {
+  
+  public static void problem1(int num) {
+    int sum = 0;
+    for (int i = 0; i < num; i++) {
+      if (i % 3 == 0 || i % 5 == 0)
+        sum += i;
+    }
+    System.out.println("The sum of the numbers is: " + sum);
+  }
+  
+  public static void problem2() {
+    int sum = 0;
+    int num1 = 1;
+    int num2 = 2;
+    
+    while(num2 < 4000000) {
+      if (num2 % 2 == 0)
+        sum+= num2;
+      int save = num2;
+      num2 += num1;
+      num1 = save;
+    }
+    System.out.println(sum);
+  }
+  
+  public static int problem3(long num) {
+    int prime = 1;
+    for (int i = 1; i < Math.sqrt(num); i++) {
+      if (num % i == 0) {
+        if (testPrime(i))
+          prime = i;
+      }
+    }
+    return prime;
+  }  
+  
+  public static boolean testPrime(int num) {
+    for (int i = 2; i <= Math.sqrt(num); i++) {
+      if (num % i == 0)
+        return false;
+    }
+    return true;
+  }
+  
+  public static int problem4() {
+    int palindrome = 0;
+    for (int i = 999; i > 100; i--) {
+      for (int j = 999; j > 100; j--) {
+        if (palindrome(i*j)) {
+          if (i*j > palindrome)
+            palindrome = i*j;
+        }
+      }
+    }
+    return palindrome;
+  }
+  
+  public static boolean palindrome(Integer num) {
+    String s = num.toString();
+    for (int i = 0; i < s.length()/2; i++) {
+      if (s.charAt(i) != s.charAt(s.length() - 1 - i))
+        return false;
+    }
+    return true;
+  }
+  
+  public static int problem5() {
+    int i = 1;
+    while(true) { 
+      if (i%20==0 && i%19==0 && i%18==0 && i%17==0 && i%16==0 && i%15==0 && i%14==0 && i%13==0 && i%12==0 && i%11==0)
+        return i;
+      i++;
+    }
+  }
+  
+  public static int problem6() {
+    int sumOfSquares = 0;
+    int squareOfSum = 0;
+    for (int i = 1; i <= 100; i++) {
+      sumOfSquares += (int)Math.pow(i,2);
+      squareOfSum += i;
+    }
+    squareOfSum = (int)Math.pow(squareOfSum,2);
+    return squareOfSum - sumOfSquares;
+  }
+  
+  public static int problem7() {
+    int numPrime = 0;
+    int i = 1;
+    while(numPrime<=10001) {
+      if (testPrime(i))
+        numPrime++;
+      i++;
+    }
+    return i;
+  }
+  
+  public static int problem8(String num) {
+    int product = 0;
+    for (int i = 0; i < num.length() - 5; i++) {
+      int value = Character.getNumericValue(num.charAt(i)) * Character.getNumericValue(num.charAt(i+1)) *
+            Character.getNumericValue(num.charAt(i+2)) * Character.getNumericValue(num.charAt(i+3)) *
+          Character.getNumericValue(num.charAt(i+4));
+      if (value > product)
+        product = value;
+    }
+    return product;
+  }
+       
+  public static int problem9() {
+    for (int i = 1; i < 1000; i++) {
+      for (int j = 1; j < 1000; j++) {
+        for (int k = 1; k < 1000; k++) {
+          if (Math.pow(i,2) + Math.pow(j,2) == Math.pow(k,2) && i + j + k == 1000) {
+            System.out.println(i + " " + j + " " + k);
+            return i*j*k;
+          }
+        }
+      }
+    }
+    return -1;
+  }
+  
+  public static long problem10() {
+    long sum = 0;
+    for (int i = 2; i <= 2000000; i++) {
+      if (testPrime(i))
+        sum += i;
+    }
+    return sum;
+  }
+  
+  public static int problem11() {
+    int[][] grid =
+    { {8, 02, 22, 97, 38, 15, 00, 40, 00, 75, 04, 05, 07, 78, 52, 12, 50, 77, 91, 8},
+      {49, 49, 99, 40, 17, 81, 18, 57, 60, 87, 17, 40, 98, 43, 69, 48, 04, 56, 62, 00},
+      {81, 49, 31, 73, 55, 79, 14, 29, 93, 71, 40, 67, 53, 88, 30, 03, 49, 13, 36, 65},
+      {52, 70, 95, 23, 04, 60, 11, 42, 69, 24, 68, 56, 01, 32, 56, 71, 37, 02, 36, 91},
+      {22, 31, 16, 71, 51, 67, 63, 89, 41, 92, 36, 54, 22, 40, 40, 28, 66, 33, 13, 80},
+      {24, 47, 32, 60, 99, 03, 45, 02, 44, 75, 33, 53, 78, 36, 84, 20, 35, 17, 12, 50},
+      {32, 98, 81, 28, 64, 23, 67, 10, 26, 38, 40, 67, 59, 54, 70, 66, 18, 38, 64, 70},
+      {67, 26, 20, 68, 02, 62, 12, 20, 95, 63, 94, 39, 63, 8, 40, 91, 66, 49, 94, 21},
+      {24, 55, 58, 05, 66, 73, 99, 26, 97, 17, 78, 78, 96, 83, 14, 88, 34, 89, 63, 72},
+      {21, 36, 23, 9, 75, 00, 76, 44, 20, 45, 35, 14, 00, 61, 33, 97, 34, 31, 33, 95},
+      {78, 17, 53, 28, 22, 75, 31, 67, 15, 94, 03, 80, 04, 62, 16, 14, 9, 53, 56, 92},
+      {16, 39, 05, 42, 96, 35, 31, 47, 55, 58, 88, 24, 00, 17, 54, 24, 36, 29, 85, 57},
+      {86, 56, 00, 48, 35, 71, 89, 07, 05, 44, 44, 37, 44, 60, 21, 58, 51, 54, 17, 58},
+      {19, 80, 81, 68, 05, 94, 47, 69, 28, 73, 92, 13, 86, 52, 17, 77, 04, 89, 55, 40},
+      {04, 52, 8, 83, 97, 35, 99, 16, 07, 97, 57, 32, 16, 26, 26, 79, 33, 27, 98, 66},
+      {88, 36, 68, 87, 57, 62, 20, 72, 03, 46, 33, 67, 46, 55, 12, 32, 63, 93, 53, 69},
+      {04, 42, 16, 73, 38, 25, 39, 11, 24, 94, 72, 18, 8, 46, 29, 32, 40, 62, 76, 36},
+      {20, 69, 36, 41, 72, 30, 23, 88, 34, 62, 99, 69, 82, 67, 59, 85, 74, 04, 36, 16},
+      {20, 73, 35, 29, 78, 31, 90, 01, 74, 31, 49, 71, 48, 86, 81, 16, 23, 57, 05, 54},
+      {01, 70, 54, 71, 83, 51, 54, 69, 16, 92, 33, 48, 61, 43, 52, 01, 89, 19, 67, 48} };
+    int product = 0;
+    for (int i = 0; i < grid.length; i++) {
+      for (int j = 0; j < grid[0].length; j++) {
+        if (i + 4 < grid.length) {
+          int value = grid[i][j] * grid[i+1][j] * grid[i+2][j] * grid[i+3][j];
+          if (value > product)
+            product = value;
+        }
+        if (j + 4 < grid[0].length) {
+          int value = grid[i][j] * grid[i][j+1] * grid[i][j+2] * grid[i][j+3];
+          if (value > product)
+            product = value;
+        }
+        if (i + 4 < grid.length && j + 4 < grid.length) {
+          int value = grid[i][j] * grid[i+1][j+1] * grid[i+2][j+2] * grid[i+3][j+3];
+          if (value > product)
+            product = value;
+        }
+        if (i > 2 && j < grid.length - 4) {
+          int value = grid[i][j] * grid[i-1][j+1] * grid[i-2][j+2] * grid[i-3][j+3];
+          if (value > product)
+            product = value;
+        }
+      }
+    }
+    return product;
+  }
+  
+  public static int problem12() {
+    int triangle = 1;
+    int ctr = 1;
+    while(true) {
+      int divisors = 0;
+      for (int j = 1; j <= Math.sqrt(triangle); j++) {
+        if (triangle % j == 0)
+          divisors++;
+      }
+      divisors = divisors * 2;
+      if (divisors > 500)
+        return triangle;
+      ctr++;
+      triangle += (ctr);
+    }
+  }
+  
+  public static void problem13(String numbers) {
+    String[] nums = new String[numbers.length() / 50];
+    for (int i = 0; i < (numbers.length() / 50); i++) {
+      StringBuilder b = new StringBuilder();
+      for (int j = i*50; j < i*50+50; j++) {
+        b.append(numbers.charAt(j));
+      }
+      nums[i] = b.toString();
+      System.out.println(nums[i]);
+    }
+    String[] sums = new String[nums[0].length()];
+    int sum = 0;
+    for (int i = nums[0].length() - 1; i >= 0; i--) {
+      for (int j = 0; j < nums.length; j++) {
+        sum += Character.getNumericValue(nums[j].charAt(i));
+      }
+      if (i > 0) {
+      sums[49-i] = "" + (sum % 10);
+      sum = sum / 10;
+      }
+      else
+        sums[49-i] = ""+sum;
+    }
+    for (int i = sums.length-1; i >= 0; i--) {
+      System.out.print(sums[i]);
+    }
+  }
+  
+  public static int problem14() {
+    int longest = 0;
+    int num = 0;
+    for (int i = 2; i < 1000000; i++) {
+      int testSeq = collatz(i);
+      if (testSeq > longest) {
+        longest = testSeq;
+        num = i;
+      }
+    }
+    return num;
+  }
+  
+  public static int collatz(long i) {
+    int seq = 1;
+    while (i > 1) {
+      if (i % 2 == 0) {
+        i = i/2;
+        seq++;
+      }
+      else {
+        i = (3*i)+1;
+        seq++;
+      }
+    }
+    return seq;
+  }
+  
+  public static int problem16(String num) {
+    int sumOfDigits = 0;
+    for (int i = 0; i < num.length(); i++) {
+      sumOfDigits += Character.getNumericValue(num.charAt(i));
+    }
+    return sumOfDigits;
+  }
+  
+  public static int problem17() {
+    String[] ones = {"","one","two","three","four","five","six","seven","eight","nine","ten"};
+    String[] teens = {"ten","eleven","twelve","thirteen","fourteen","fifteen","sixteen","seventeen","eighteen","nineteen"};
+    String[] tens = {"","ten","twenty","thirty","forty","fifty","sixty","seventy","eighty","ninety"};
+    String[] hundreds = {"","onehundred","twohundred","threehundred","fourhundred","fivehundred","sixhundred","sevenhundred","eighthundred","ninehundred"};
+    StringBuilder s = new StringBuilder();
+    for (int i = 0; i < 1000; i++) {
+      if (i >= 100) {
+        s.append(hundreds[Character.getNumericValue((""+i).charAt(0))]);
+        if (Character.getNumericValue((""+i).charAt(1)) > 0 || Character.getNumericValue((""+i).charAt(2)) > 0) {
+          s.append("and");
+          if (Character.getNumericValue((""+i).charAt(1)) == 1) {
+            s.append(teens[Character.getNumericValue((""+i).charAt(2))]);
+          }
+          else {
+            s.append(tens[Character.getNumericValue((""+i).charAt(1))]);
+            s.append(ones[Character.getNumericValue((""+i).charAt(2))]);
+          }
+        }
+      }
+      else if (i >= 20) {
+        s.append(tens[Character.getNumericValue((""+i).charAt(0))]);
+        s.append(ones[Character.getNumericValue((""+i).charAt(1))]);
+      }
+      else if (i > 10) {
+        s.append(teens[Character.getNumericValue((""+i).charAt(1))]);
+      }
+      else if (i==10) {
+        s.append("ten");
+      }
+      else {
+        s.append(ones[Character.getNumericValue((""+i).charAt(0))]);
+      }
+    }
+    s.append("onethousand");
+    return s.toString().length();        
+  }
+  
+  public static int problem18() {
+   // String[] {"75","9564","174782","18358710","2004824765","190123750334","88027773076367","9965042806167092",
+     // "414126568340807033","41487233473237169429","5371446525439152975114","70 11 33 28 77 73 17 78 39 681757"}
+    //Unfinished
+    return -1;
+  }
+  
+  public static int problem19() {
+    int numSundays = 0;
+    for (int i = 1901; i <= 2000; i++) {
+      for (int j = 1; j <= 12; j++) {
+        if (getDay(1,j,i) == 0)
+          numSundays++;
+      }
+    }
+    return numSundays;
+  }
+  
+  public static int getDay(int day, int month, int year) {
+    int t[] = {0, 3, 2, 5, 0, 3, 5, 1, 4, 6, 2, 4};
+    year -= (month < 3 ? 1 : 0);
+    return (year + year/4 - year/100 + year/400 + t[month-1] + day) % 7;
+  }     
+  
+  public static String getDay2(int day, int month, int year) {
+    int t[] = {0, 3, 2, 5, 0, 3, 5, 1, 4, 6, 2, 4};
+    year -= (month < 3 ? 1 : 0);
+    switch ((year + year/4 - year/100 + year/400 + t[month-1] + day) % 7) {
+      case 0:
+        return "Sunday";
+      case 1:
+        return "Monday";
+      case 2:
+        return "Tuesday";
+      case 3:
+        return "Wednesday";
+      case 4:
+        return "Thursday";
+      case 5:
+        return "Friday";
+      case 6:
+        return "Saturday";
+      default:
+        return "error...";
+    }
+  }     
+  
+  public static int problem20() {
+    String num = "" + factorial(100, 200);
+    int sum = 0;
+    for (int i = 0; i < num.length(); i++) {
+      sum += Integer.parseInt("" + num.charAt(i));
+    }
+    return sum;
+  }
+  
+  
+    public static BigDecimal factorial(int x, int precision) {
+    MathContext mc = new MathContext(precision);
+    BigDecimal result = new BigDecimal(1,mc);
+    for (int i = x; i > 1; i--) {
+      result = result.multiply(new BigDecimal(i,mc));
+    }
+    return result;
+  }
+    
+    public static int problem21() {
+      int sum = 0;
+      for (int i = 0; i <= 10000; i++) {
+        if (isAmicable(i)) {
+          sum += i;
+        }
+      }
+      return sum;
+    }
+    
+    public static boolean isAmicable(int i) {   
+      int sumFactors_i = 0;
+      int sumFactors_n = 0;
+      for (int j = 1; j < i-1; j++) {
+        if (i%j == 0) 
+          sumFactors_i += j;
+      }
+      for (int j = 1; j < sumFactors_i-1; j++) {
+        if (sumFactors_i%j == 0)
+          sumFactors_n+=j;
+      }
+      return (sumFactors_n == i && i != sumFactors_i);
+    }
+    
+    public static double problem22() {
+      String[] names = sortNames(getNames());
+      double totalScore = 0.0;
+      for (int i = 0; i < names.length; i++) {
+        int nameScore = 0;
+        for (int j = 0; j < names[i].length(); j++) {
+          nameScore += ((int)names[i].charAt(j) - 64);
+        }
+        totalScore += nameScore * (i+1);
+      }
+      return totalScore;
+    }
+        
+    
+    public static String[] sortNames(String[] names) {
+      Arrays.sort(names);
+      String[] sortedNames = names;
+      return sortedNames;
+    }    
+    
+    public static String[] getNames() {
+      try{
+      // Open the file that is the first 
+      // command line parameter
+      FileInputStream fstream = new FileInputStream("names.txt");
+      // Get the object of DataInputStream
+      StringBuilder b = new StringBuilder();
+      DataInputStream in = new DataInputStream(fstream);
+      BufferedReader br = new BufferedReader(new InputStreamReader(in));
+      String strLine;
+      //Read File Line By Line
+      while ((strLine = br.readLine()) != null)   {
+        b.append(strLine.trim());
+      }
+      //Close the input stream
+      in.close();
+      return b.toString().replaceAll("\"","").split(",");
+    }
+    catch (Exception e){//Catch exception if any
+      System.err.println("Error: " + e.getMessage());
+    }
+    return new String[] {""};
+  }
+    
+    public static double problem23() {
+      int[] abundantNumbers = abundantNumbers();
+      double sum = 0.0;
+      for (int i = 0; i < 28125; i++) {
+        if (!sumAbundantNumbers(i,abundantNumbers))
+          sum+=i;
+      }
+      return sum;
+    }
+    
+    public static boolean sumAbundantNumbers(int num, int[] abundantNumbers) {
+      for (int i = 0; i < abundantNumbers.length; i++) {
+        for (int j = 0; j < abundantNumbers.length && abundantNumbers[i] + abundantNumbers[j] <= num; j++) {
+          if (abundantNumbers[i] + abundantNumbers[j] == num)
+            return true;
+        }
+      }
+      return false;
+    }
+    
+    public static int[] abundantNumbers() {
+      ArrayList nums = new ArrayList(100);
+      for (int i = 0; i < 30000; i++) {
+        int sumFactors = 0;
+        for (int j = 1; j < i; j++) {
+          if (i%j==0)
+            sumFactors += j;
+        }
+        if (sumFactors > i) {
+          nums.add(new Integer(i));
+        }
+      }
+      nums.trimToSize();      
+      int[] abundantNumbers = new int[nums.size()];
+      for (int i = 0; i < nums.size(); i++) {
+        abundantNumbers[i] = (Integer)nums.get(i);
+      }
+      Arrays.sort(abundantNumbers);
+      return abundantNumbers;
+    }
+      
+    public static String problem24() {
+      long startTime = Calendar.getInstance().getTimeInMillis();
+      ArrayList aArray = new ArrayList();
+      ArrayList numbers = new ArrayList(10000000);
+      for (int i = 0; i < 10; i++) {
+        aArray.add(i);
+      }
+      for (Object a : aArray) {
+        ArrayList bArray = new ArrayList(aArray);
+        bArray.remove(a);
+        for (Object b:bArray) {
+          ArrayList cArray = new ArrayList(bArray);
+          cArray.remove(b);
+          for (Object c:cArray) {
+            ArrayList dArray = new ArrayList(cArray);
+            dArray.remove(c);
+            for (Object d:dArray) {
+              ArrayList eArray = new ArrayList(dArray);
+              eArray.remove(d);
+              for (Object e:eArray) {
+                ArrayList fArray = new ArrayList(eArray);
+                fArray.remove(e);
+                for (Object f:fArray) {
+                  ArrayList gArray = new ArrayList(fArray);
+                  gArray.remove(f);
+                  for (Object g:gArray) {
+                    ArrayList hArray = new ArrayList(gArray);
+                    hArray.remove(g);
+                    for (Object h:hArray) {
+                      ArrayList iArray = new ArrayList(hArray);
+                      iArray.remove(h);
+                      for (Object i:iArray) {
+                        ArrayList jArray = new ArrayList(iArray);
+                        jArray.remove(i);
+                        for (Object j:jArray) {
+                          String num = "" + a + b + c + d + e + f + g + h + i + j;
+                          numbers.add(num);
+                          if (numbers.size() == 1000000) {
+                            long endTime = Calendar.getInstance().getTimeInMillis();
+                            System.out.println("That took: " + (endTime - startTime) + " milliseconds.");
+                            return numbers.get(999999).toString();
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+      return "error";
+    }         
+ }
+
